@@ -1,0 +1,86 @@
+<div class="page-header" id="banner">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>@(e-certs - Test WURI)</h1>
+            <p class="lead">
+                @(Test de génération des qrcode WURI ID)
+            </p>
+        </div>
+        <div class="col-sm-6">
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <h2 class="mb-3">@(Données)</h2>
+    <div class="col-sm-12">
+        @{view('/alert_messages')}
+        <form action="/admin/tests/wuri" method="POST">
+            <div class="row g-3 mb-5">
+                <div class="col-4">
+                    <label for="niu" class="form-label">ID WURI <span class="text-danger">*</span></label>
+                    <input type="text" id="niu" name="niu" class="form-control" placeholder="NIU" aria-label="NIU"
+                        required value="@{M.niu}">
+                </div>
+                <div class="col-4">
+                    <label for="issuer" class="form-label">Emmeteur <span class="text-danger">*</span></label>
+                    <input type="text" id="issuer" name="issuer" class="form-control" placeholder="Emmeteur"
+                        aria-label="Emmeteur" required value="@{M.issuer}">
+                </div>
+                <div class="col-4">
+                    <label for="issuer" class="form-label">Version </label>
+                    <input type="text" id="version" name="version" class="form-control" placeholder="Version"
+                        aria-label="Emmeteur" value="@{M.version}">
+                </div>
+            </div>
+            <div class="row g-3 mb-5">
+                <div class="col-3">
+                    <label for="lastname" class="form-label">Nom de famille <span class="text-danger">*</span></label>
+                    <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Nom de famille"
+                        aria-label="Nom de famille" required value="@{M.lastname}">
+                </div>
+                <div class="col-3">
+                    <label for="firstname" class="form-label">Prénom(s) <span class="text-danger">*</span></label>
+                    <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Prénom(s)"
+                        aria-label="Prénom(s)" required value="@{M.firstname}">
+                </div>
+                <div class="col-3">
+                    <label for="gender" class="form-label">Sexe <span class="text-danger">*</span></label>
+                    <input type="text" id="gender" name="gender" class="form-control" placeholder="Sexe"
+                        aria-label="Sexe" value="@{M.gender}">
+                </div>
+                <div class="col-3">
+                    <label for="birthdate" class="form-label">Date de naissance<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="birthdate" name="birthdate" class="form-control"
+                        placeholder="Date de naissance" aria-label="Date de naissance" required value="@{M.birthdate}">
+                </div>
+            </div>
+            <div class="row g-3 mb-5">
+                <div class="col-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" id="email" name="email" class="form-control" placeholder="Email"
+                        aria-label="Email" value="@{M.email}">
+                </div>
+                <div class="col-4">
+                    <label for="phone" class="form-label">Téléphone</label>
+                    <input type="text" id="phone" name="phone" class="form-control" placeholder="Téléphone"
+                        aria-label="Téléphone" value="@{M.phone}">
+                </div>
+                <div class="col-4">
+                    <label for="phone" class="form-label">Photo</label>
+                    <input type="file" id="photo" name="photo" class="form-control" placeholder="Photo"
+                        aria-label="Photo" value="@{M.photo}">
+                </div>
+            </div>
+            <div class="row g-3 mb-3 mt-3">
+                <div class="col-4">
+                    <button type="submit" class="btn btn-lg btn-primary"> Exécuter le test</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{if(R.results)}
+@{view('/admin/tests/wuri-results')}
+@{fi}

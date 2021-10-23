@@ -1,0 +1,16 @@
+default_ip                      : 127.0.0.1
+default_port                    : 8000
+
+redis_session                   : false
+
+//Datadases
+mongoose_database               : mongodb://127.0.0.1:27017/certsdb
+
+default_user    (Object)        : {email:'admin@wuri.org', password:'aPassW0rd'}
+
+jwt_secret                      : 'sctdmpsls6E8dssldmcoplmqsteps902SDr678'
+jwt_issuer                      : 'WURI'
+
+#apt-get install musl-dev
+#ln -s /usr/lib/x86_64-linux-musl/libc.so /lib/libc.musl-x86_64.so.1
+#mode (test,acc,prod) pour gerer les phases de deploiement et de test du backend national

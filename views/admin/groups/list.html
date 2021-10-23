@@ -1,0 +1,42 @@
+<div class="table-responsive-md">
+    <table class="card-body table table-xm table-striped table-hover table-borderless">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>@(ID)</th>
+                <th>@(Libellé)</th>
+                <th>@(Description)</th>
+                <th>@(Etat)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{foreach group in R.groups}
+            <tr>
+                <td>@{R.line}</td>
+                <td>
+                    <a href="#"
+                        onclick="loadModal('/admin/groups/edit/@{group._id}/?page=@{R.page}&l=@{R._id}', 'lg');return false;">
+                        @{group._id}
+                    </a>
+                </td>
+                <td>@{group.label}</td>
+                <td>@{group.desc}</td>
+                <td>@{group.status}</td>
+            </tr>
+            @{R.line++}
+            @{end}
+            @{foreach n in helpers.range(R.line, R.lineEnd, 1)}
+            <tr>
+                <td>@{n}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @{end}
+        </tbody>
+    </table>
+</div>
+<div class="card-footer">
+    @{view('partial-paging', R.pagination)}
+</div>

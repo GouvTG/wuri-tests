@@ -1,0 +1,103 @@
+<div class="modal-header">
+    @{if(M._id)}
+        <h2 class="mb-0"><i class="nav-icon feather icon-user"> </i>@(Editer un utilisateur)</h2>
+    @{else}
+        <h2 class="mb-0"><i class="nav-icon feather icon-user-plus"> </i>@(Ajouter un utilisateur)</h2>
+    @{fi}
+    <button type="button" class="close" data-dismiss="modal"><i class="fe fe-x"></i></button>
+</div>
+<div class="modal-body">
+    <div class="inner-modal-content">
+        @{view('/alert_messages')}
+        <form class="form p-3 border rounded" id="userForm" action="/admin/users/save" method="post">
+            <input type="hidden" name="oldid" id="oldid" value="@{M._id}">
+            <div class="form-group row">
+                <label for="username" class="col-sm-4">@(Identifiant)<span class="required">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="text" name="username" class="form-control" id="username"
+                        placeholder="@(Identifiant) *" value="@{M.uref}" readonly >
+                </div>
+            </div>    
+            <div class="form-group row">
+                <label for="state" class="col-sm-4">@(Etat) :</label>
+                <div class="col-sm-8 select-input">
+                    <select name="status" id="status" class="form-control selectpicker">
+                        <option @{(M.status=='Active' ) ? 'selected' : '' } value="Active">@(Actif)</option>
+                        <option @{(M.status=='Inactive' ) ? 'selected' : '' } value="Inactive">@(Inactif)</option>
+                    </select>
+                </div>
+            </div>
+
+            <h5 class="sub-title">@(Identification et Contacts)</h5>
+            
+            <div class="form-group row">
+                <label for="lastName" class="col-sm-4">@(Nom)<span class="required">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="@(Nom) *"
+                        value="@{M.lastName}" required >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="firstName" class="col-sm-4">@(Prénom)<span class="required">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="@(Prénom) *"
+                        value="@{M.firstName}" required >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-4">@(E-mail)<span class="required">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="@(E-mail) *"
+                        value="@{M.email}" required >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="phone" class="col-sm-4">@(Téléphone)<span class="required">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="@(Téléphone) *"
+                        value="@{M.phone}" required >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-4">@(Mot de passe)<span class="required">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="@(Mot de passe) *"
+                        value="" required >
+                </div>
+            </div>
+
+            <h5 class="sub-title">@(Organisations et droits)</h5>
+
+            <div class="form-group row m-b-0">
+                <label for="group" class="col-sm-4">@(Groupe parent)</label>
+                <div class="col-sm-8 select-input">
+                    <select class="form-control selectpicker" title="Aucun sélectionné" id="group" name="group" >
+                        <option value=""></option>
+                        @{foreach group in R.groups}
+                        <option @{(group._id.equals(M.group)) ? 'selected' : '' } value="@{group._id}">@{group.code} -
+                            @{group.label}</option>
+                        @{end}
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer text-right">
+    @{if(M._id)}
+    <button type="button" class="btn btn-sm btn-danger mr-auto" onclick="loadModal('/admin/accounts/del?id=@{M._id}')"> 
+        <i class="fe fe-trash"></i> @(Supprimer)
+    </button>
+    @{fi}
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> 
+        <i class="fe fe-x"></i>@(Fermer)
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" onclick="postModal('userForm')">
+        <i class="fe fe-save"></i> @(Enregistrer)
+    </button>
+    <script>
+    $(document).ready(function(){
+        $('.selectpicker').selectpicker();
+    });
+    </script>
+</div>

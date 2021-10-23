@@ -1,0 +1,44 @@
+@{ if R.flash.error_msg }
+@{ R.dialog = true }
+<div class="alert alert-danger color-danger alert-dismissible fade show">
+    <h5>@(Désolé!)</h5>
+    <p class="mb-1">
+        @{R.flash.error_msg}
+    </p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@{fi}
+@{ if R.flash.success_msg }
+@{ R.dialog = true }
+<div class="alert alert-success color-success alert-dismissible in fade show">
+    <h5>@(Cool!)</h5>
+    <p>
+        @{R.flash.success_msg}
+    </p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@{fi}
+@{ if R.flash.info_msg }
+@{ R.dialog = true }
+<div class="alert alert-info color-info alert-dismissible fade show">
+    <h5><i class="fa fa-info fa-fw"></i></h5>
+    <p>
+        @{R.flash.info_msg}
+    </p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@{fi}
+@{ if R.flash.reload }
+<script>
+    loadInto('@{R.flash.reload.url}', '@{R.flash.reload.id}');
+</script>
+@{fi}
+@{ if R.dialog }
+<script>
+    $(function () {
+        setTimeout(function () {
+            $('.alert-dismissible').alert('close');
+        }, 5000);
+    });
+</script>
+@{fi}

@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        Total : @{M.items} - Page @{M.page} sur @{M.count}
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <div class="text-rigt">
+            <ul class="pagination justify-content-end">
+                <li class="page-item @{if M.isFirst} disabled @{endif}">
+                    <a class="page-link" href="#" onclick="loadInto('@{M.first().url}', 'listpan', false); return false;">
+                        <i class="mdi mdi-chevron-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item @{if !M.isPrev} disabled @{endif}">
+                    <a class="page-link" href="#" onclick="loadInto('@{M.prev().url}', 'listpan', false); return false;">
+                        <i class="mdi mdi-chevron-left"></i>
+                    </a>
+                </li>
+                @{foreach m in M.render(7)}
+                <li class="page-item @{if m.selected} active @{endif}"><a class="page-link" href="#"
+                        onclick="loadInto('@{m.url}', 'listpan', false); return false;">@{m.page}</a></li>
+                @{end}
+                <li class="page-item  @{if !M.isNext} disabled @{endif}">
+                    <a class="page-link" href="#" onclick="loadInto('@{M.next().url}', 'listpan', false); return false;">
+                        <i class="mdi mdi-chevron-right"></i>
+                    </a>
+                </li>
+                <li class="page-item  @{if M.isLast} disabled @{endif}">
+                    <a class="page-link" href="#" onclick="loadInto('@{M.last().url}', 'listpan', false); return false;">
+                        <i class="mdi mdi-chevron-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

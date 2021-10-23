@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          @{if(M.id)} @(Modifier le site) @{else} @(Nouveau site) @{fi}
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name">Nom</label>
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name">Id du profile</label>
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name">Adresse IP</label>
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name">Url</label>
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label for="secret_key">Clé d'accès</label>
+                  <input type="text" class="form-control">
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label for="status">Statut</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                      Default checkbox
+                    </label>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea name="description" id="description" rows="4"></textarea>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="update mr-auto">
+              <button type="submit" class="btn btn-primary btn-round">
+                Enregistrer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

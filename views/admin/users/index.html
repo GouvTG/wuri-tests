@@ -1,0 +1,44 @@
+@{title('Utilisateur')}
+
+<div class="page-title">
+    <div class="row">
+        <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>@(Utilisateurs)</h3>
+            <p class="text-subtitle text-muted">
+                @(Ajouter ou modifier des comptes utilisateurs)
+            </p>
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">@(Paramètres)</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@(Utilisateurs)</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="card">
+            <div class="card-header">
+                <form class="search-form float-start">
+                    <div class="input-group input-group-primary">
+                        <input type="text" name="name" id="name" class="form-control"
+                            placeholder="@(Rechercher un utilisateur)" aria-label="Compte">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" id="searchbtn"><i
+                                    class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <button class="btn btn-primary float-end" onclick="return loadModal('/admin/groups/add', 'lg');">
+                    <i class="bi bi-plus"></i> @(Ajouter un utilisateur)
+                </button>
+            </div>
+            <div id="listpan" data-xref="/admin/users/list">
+
+            </div>
+        </div>
+    </section>
+</div>

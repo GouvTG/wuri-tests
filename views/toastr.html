@@ -1,0 +1,30 @@
+@{ if R.flash.error_msg }
+	@{ R.dialog = true }
+	<script>
+		$(document).ready(function () {
+			toastr.error("@{R.flash.error_msg}", 'Erreur!')
+			// toastr["@{M.type}"]("@{M.message}");
+		});
+	</script>
+@{fi}
+
+@{ if R.flash.success_msg }
+	@{ R.dialog = true }
+	<script>
+		$(document).ready(function () {
+			toastr.success("@{R.flash.success_msg}", 'Success!')
+			// toastr["@{M.type}"]("@{M.message}");
+		})
+	</script>
+@{fi}
+
+@{ if R.flash.info_msg }
+	@{ R.dialog = true }
+	<script>
+		$(document).ready(function () {
+			// toastr.options.closeButton = true;
+			toastr.success("@{R.flash.info_msg}", 'Informations!')
+			// toastr["@{M.type}"]("@{M.message}");
+		});
+	</script>
+@{fi}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="@{session.language}">
+
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <title>@{config.name} - @{title}</title>
+        <meta content="" name="descriptison">
+        <meta content="" name="keywords">
+
+        <link href="/assets/img/favicon.png" rel="icon" type="image/png">
+        <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+        <link rel="stylesheet" href="/assets/lib/bootstrap/css/sandstone/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/lib/fa/css/all.min.css">
+
+        @{section('page_head')}
+
+        <link rel="stylesheet" href="/assets/css/app.min.css">
+
+        <script src="/assets/lib/jquery/jquery.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            @{view('/partials/header')}
+
+            @{body}
+
+            @{view('/partials/footer')}
+        </div>
+
+        <script src="/assets/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/lib/fa/js/all.min.js"></script>
+        <script src="/assets/js/app.js"></script>
+
+
+        @{section('page_foot')}
+
+    </body>
+
+</html>

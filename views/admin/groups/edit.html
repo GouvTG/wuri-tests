@@ -1,0 +1,64 @@
+<div class="modal-header">
+    @{if(M._id)}
+    <h2><i class="nav-icon feather icon-users"> </i>@(Editer un groupe)</h2>
+    @{else}
+    <h2><i class="nav-icon feather icon-users"> </i>@(Ajouter un groupe)</h2>
+    @{fi}
+    <button type="button" class="close" data-bs-dismiss="modal"><i class="bi-x-lg"></i></button>
+</div>
+<div class="modal-body">
+    <div class="inner-modal-content">
+        @{view('/alert_messages')}
+        <form class="form p-3 " id="userForm" action="/admin/groups/save" method="post">
+            <input type="hidden" name="oldid" id="oldid" value="@{M._id}">
+            <div class="form-group row">
+                <label for="code" class="col-sm-3 col-sm-4">@(ID) <span class="text-danger">*</span> :</label>
+                <div class="col-sm-8">
+                    <input type="text" name="code" readonly class="form-control" id="code"
+                        placeholder="@(Généré automatiquement) *" value="@{M._id}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="label" class="col-sm-3 col-sm-4">@(Nom) <span class="text-danger">*</span> : </label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="label" name="label" placeholder="@(Libellé) *"
+                        value="@{M.label}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="desc" class="col-sm-3 col-sm-4">@(Description)<span class="required"></span> :</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" name="desc" id="desc" rows="4"
+                        placeholder="@(Description)"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="state" class="col-sm-3 col-sm-4">@(Etat)</label>
+                <div class="col-sm-8 select-input">
+                    <select name="status" id="status" class="form-control selectpicker">
+                        <option @{(M.status=='Active' ) ? 'selected' : '' } value="Active">@(Actif)</option>
+                        <option @{(M.status=='Inactive' ) ? 'selected' : '' } value="Inactive">@(Inactif)</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+<div class="modal-footer text-right">
+    @{if(M._id)}
+    <button type="button" class="btn btn-sm btn-danger me-auto" onclick="loadModal('/admin/groups/del/@{M._id}')">
+        <i class="bi-trash me-2"></i> @(Supprimer)
+    </button>
+    @{fi}
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <i class="bi-x me-2"></i>@(Annuler)
+    </button>
+    <button type="button" class="btn btn-primary" onclick="postModal('userForm')">
+        <i class="bi bi-save me-2"></i> @(Enregistrer)
+    </button>
+    <script>
+        $(document).ready(function () {});
+    </script>
+</div>

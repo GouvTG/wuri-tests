@@ -1,0 +1,47 @@
+{
+    "name": "totalproject",
+    "description": "Empty project",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "@digitalbazaar/cborld": "^4.3.0",
+        "@digitalbazaar/ed25519-signature-2018": "^2.0.1",
+        "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
+        "@digitalbazaar/ed25519-verification-key-2018": "^3.1.1",
+        "@digitalbazaar/ed25519-verification-key-2020": "^3.1.0",
+        "@fidm/x509": "^1.2.1",
+        "axios": "^0.23.0",
+        "base45-js": "^1.0.2",
+        "bcryptjs": "^2.4.3",
+        "bluebird": "^3.7.2",
+        "cbor": "^8.0.0",
+        "cose-js": "^0.7.0",
+        "crypto-ld": "^6.0.0",
+        "custom-id": "^1.2.0",
+        "cwt-js": "git+https://github.com/GouvTG/cwt-js.git",
+        "ed25519": "^0.0.5",
+        "jsonschema": "^1.4.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.0.8",
+        "mongoose-paginate-v2": "^1.4.2",
+        "mongoose-sanitizer-plugin": "^1.1.0",
+        "mongoose-sequence": "^5.3.1",
+        "pako": "^2.0.4",
+        "password-validator": "^5.1.1",
+        "qrcode": "^1.4.4",
+        "sha256-uint8array": "^0.10.3",
+        "total4": "^0.0.51",
+        "validator": "^13.6.0",
+        "vc-js": "^0.6.4"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "empty",
+        "project"
+    ],
+    "author": "Morlé Koudeka",
+    "license": "SEE LICENSE IN license.md",
+    "private": true
+}
