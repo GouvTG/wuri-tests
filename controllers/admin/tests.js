@@ -34,6 +34,8 @@ async function testWuri() {
 
     let testData = U.trim(self.body, true);
 
+    console.log('TestData -->>', testData);
+
     try {
 
         let results = [];
@@ -61,7 +63,7 @@ async function testWuri() {
 
         self.view('/admin/tests/wuri', testData);
     } catch (error) {
-        self.failbackToForm(error.message || err);
+        self.failbackToForm(error.message || error);
     }
 }
 

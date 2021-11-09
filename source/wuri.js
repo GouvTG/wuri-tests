@@ -8,7 +8,7 @@ const fs = require("fs");
 const QrCode = require("qrcode");
 const Cbor = MODULE('cbor').create();
 
-const vc = require('vc-js');
+const vc = require('@digitalbazaar/vc');
 const cose = require("cose-js");
 const {
     encode,
@@ -17,6 +17,7 @@ const {
 
 
 const zlib = require("pako");
+const base45 = require("base45-js");
 
 // Required to set up a suite instance with private key
 const {
@@ -26,6 +27,85 @@ const {
 const {
     Ed25519Signature2020
 } = require("@digitalbazaar/ed25519-signature-2020");
+
+
+const {
+    extendContextLoader
+} = require('jsonld-signatures');
+
+// @digitalbazaar/vc exports its own secure documentLoader.
+const {
+    defaultDocumentLoader
+} = vc;
+// a valid json-ld @context.
+const schemaOrgContext = require('../private/contexts/shema-org.js');
+const vc1Context = require('../private/contexts/vc1.js');
+const securityV1Context = require('../private/contexts/security-v1.js');
+const ed25519Signature2020V1 = require('../private/contexts/ed25519-2020.js');
+
+const jsonldDocumentLoader = extendContextLoader(async url => {
+    if (url === 'https://schema.org/') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: schemaOrgContext
+        };
+    }
+    if (url === 'https://www.w3.org/2018/credentials/v1') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: vc1Context
+        };
+    }
+    if (url === 'https://w3id.org/security/v1') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: securityV1Context
+        };
+    }
+    if (url === 'https://w3id.org/security/suites/ed25519-2020/v1') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: ed25519Signature2020V1
+        };
+    }
+    return defaultDocumentLoader(url);
+});
+
+const cborldDocumentLoader = extendContextLoader(async url => {
+    if (url === 'https://schema.org/') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: schemaOrgContext
+        };
+    }
+    if (url === 'https://www.w3.org/2018/credentials/v1') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: vc1Context
+        };
+    }
+    if (url === 'https://w3id.org/security/v1') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: securityV1Context
+        };
+    }
+    if (url === 'https://w3id.org/security/suites/ed25519-2020/v1') {
+        return {
+            contextUrl: null,
+            documentUrl: url,
+            document: ed25519Signature2020V1
+        };
+    }
+    return documentLoader(url);
+});
 
 
 
@@ -45,8 +125,9 @@ let keyID = fingerprint.slice(0, 8);
 let keyX = Buffer.from(cert.publicKey.keyRaw.slice(1, 1 + 32));
 let keyY = Buffer.from(cert.publicKey.keyRaw.slice(33, 33 + 32));
 
-
-
+let encodeBase64 = (dataSring) => {
+    return Buffer.from(dataSring).toString('base64');
+}
 
 let toQRData = (dataSring) => {
     return QrCode.toDataURL(dataSring, {
@@ -140,17 +221,21 @@ let jwtJson = (idData) => {
 let vcJSON = (idData) => {
     //https://www.w3.org/TR/vc-data-model/#example-41-a-credential-uniquely-identifying-a-subject
     return {
-        "@context": ["https://www.w3.org/2018/credentials/v1", "http://webschemas.org/"],
+        "@context": ["https://www.w3.org/2018/credentials/v1", "https://schema.org/", "https://w3id.org/security/suites/ed25519-2020/v1"],
         "id": "https://anid.gouv.tg/credentials/" + idData.niu,
         "type": ["VerifiableCredential", "IdentityCredential"],
-        "issuer": "https://wuri.org/issuers/tg",
+        //"issuer": "https://wuri.org/issuers/565049",
+        "issuer": {
+            "id": "did:wuri:" + idData.niu,
+            "name": "WURI TOGO"
+        },
         "issuanceDate": new Date().toISOString(),
         "credentialSubject": {
             "givenName": idData.firstname,
             "familyName": idData.lastname,
-            "citizenship": idData.country,
+            //"citizenship": idData.country,
             "gender": idData.gender,
-            "phoneNumber": idData.phone,
+            //"phoneNumber": idData.phone,
             "email": idData.email,
         }
     }
@@ -179,6 +264,29 @@ exports.fakeNIU = (length = 10, alphabet) => {
     return niu;
 };
 
+
+const verifiableCredential = async (jsonLd) => {
+
+    const keyPair = await Ed25519VerificationKey2020.generate({
+        controller: 'https://anid.gouv.tg/'
+    });
+
+    const suite = new Ed25519Signature2020({
+        key: keyPair
+    });
+
+    let signedVC = await vc.issue({
+        credential: jsonLd,
+        suite,
+        documentLoader: jsonldDocumentLoader,
+        compressionModeUndefinedTermAllowed: true
+    });
+
+    return signedVC;
+}
+
+
+
 exports.signedvcJSON = async (data) => {
 
     let sample = {
@@ -187,27 +295,20 @@ exports.signedvcJSON = async (data) => {
 
 
     try {
-
         sample.data = vcJSON(data);
 
-        const keyPair = await Ed25519VerificationKey2020.generate({
-            controller: 'https://anid.gouv.tg/'
-        });
+        let signedVC = await verifiableCredential(sample.data);
 
-        const suite = new Ed25519Signature2020({
-            key: keyPair
-        });
-
-        let signedVC = await vc.issue({
-            credential: sample.data,
-            suite
-        });
+        console.log('Signed JSON-LD VC -->> ', signedVC);
 
         let dataStr = await packJson(signedVC);
 
         sample.encoded = dataStr;
         sample.qrData = await toQRData(sample.encoded);
     } catch (error) {
+
+        console.log('JSON-LDError -->>', error);
+
         sample.error = error.message || error;
     }
 
@@ -221,19 +322,25 @@ exports.signedW3CCbor = async (data) => {
     };
 
     try {
-
         sample.data = vcJSON(data);
 
+        let signedVC = await verifiableCredential(sample.data);
+
         let cborldBytes = await encode({
-            jsonldDocument: sample.data,
-            documentLoader: documentLoader
+            jsonldDocument: signedVC,
+            documentLoader: cborldDocumentLoader
         });
 
-        let dataStr = await signCbor(cborldBytes);
+        let dataStr = pack45(cborldBytes);
+
+        console.log('Signed CBOR-LD VC -->> ', dataStr);
 
         sample.encoded = dataStr;
         sample.qrData = await toQRData(sample.encoded);
     } catch (error) {
+
+        console.log('CBOR-LD Error -->>', error);
+
         sample.error = error.message || error;
     }
 
